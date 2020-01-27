@@ -74,7 +74,6 @@ public class JvmInfo implements Streamable, Serializable, ToXContent {
             // ignore
         }
         info.inputArguments = runtimeMXBean.getInputArguments().toArray(new String[runtimeMXBean.getInputArguments().size()]);
-        info.bootClassPath = runtimeMXBean.getBootClassPath();
         info.classPath = runtimeMXBean.getClassPath();
         info.systemProperties = runtimeMXBean.getSystemProperties();
 
@@ -111,8 +110,6 @@ public class JvmInfo implements Streamable, Serializable, ToXContent {
     Mem mem;
 
     String[] inputArguments;
-
-    String bootClassPath;
 
     String classPath;
 
@@ -256,14 +253,6 @@ public class JvmInfo implements Streamable, Serializable, ToXContent {
         return inputArguments;
     }
 
-    public String bootClassPath() {
-        return bootClassPath;
-    }
-
-    public String getBootClassPath() {
-        return bootClassPath;
-    }
-
     public String classPath() {
         return classPath;
     }
@@ -348,7 +337,6 @@ public class JvmInfo implements Streamable, Serializable, ToXContent {
         for (int i = 0; i < inputArguments.length; i++) {
             inputArguments[i] = in.readString();
         }
-        bootClassPath = in.readString();
         classPath = in.readString();
         systemProperties = new HashMap<>();
         int size = in.readInt();
@@ -373,7 +361,6 @@ public class JvmInfo implements Streamable, Serializable, ToXContent {
         for (String inputArgument : inputArguments) {
             out.writeString(inputArgument);
         }
-        out.writeString(bootClassPath);
         out.writeString(classPath);
         out.writeInt(systemProperties.size());
         for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
